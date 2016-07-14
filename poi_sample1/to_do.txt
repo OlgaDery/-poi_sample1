@@ -1,0 +1,47 @@
+TO_DO
+
+- to change the order of filters (setUser must be the first)
+- set pois_for_vis to null in some circumstances
+- nullpointerexceptions while selecting the objects for coping and manipulating
+- correct the visualization
+- show long and lat in my interface
+- locks for updates, some deletes and selects
+- FILTERING!!!! (sub1 and sub2)
+- create tables and entities for all poi categories, make the filters base on working with these entities
+
+- In the user singleton bean create a timing method checking the
+period of user not being active. If the period exeeded, session is unvalidated and user object is
+removed from the Active list.
+
+!!HOW TO CHECK THE USERS IN THE ACTIVE LIST WHO DID NOT LOG OUT AND WHO WERE NOT REMOVED FROM THE LIST
+- leave a message or comment for the created pending for user if it is not approved
+
+USER
+
+*published routes
+*pending routes
+*created drafts
+
+
+- for admin pages this functionality must be available:
+
+*select and modify and delete all the objects, find them by fields
+* add pois and collections to announces
+* see the users profile, show the tables with all the users objects, objects must be clickable,
+see the pages of the objects
+
+- RESTFUL : search for pois, routes and towns
+!!!add the configuration of all the pages for every object to allow the parallel modification
+
+- process XML from the frontend (admin jsp page, admin servlet)
+
+Pois on the map:
+- show name 
+- Show "see more" and link to the poi_page
+- POI page: name, address, description, availability, weblink, rating.
+Bottoms: 
+- modify_poi
+- add_POI
+- show_related_routes
+- show_similar_pois
+- comment poi
