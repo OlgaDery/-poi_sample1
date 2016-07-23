@@ -54,7 +54,7 @@ public class Constants_for_pois {
 	
 	public static String [] poi_sub1 = {
 			"n/a", "spring", "cave", "pictograms, image or text", "hot springs", "natural park", "burial", "zoo",
-	"bridge", "megalits", "lake", "mountain", "scientific museum", "museum of arts", "waterfall",
+	"bridge", "megalits", "lake", "mountain", "scientific museum", "museum of vis. arts, literature or music", "waterfall",
 	"education, library", "amusement park"
 	};
 	

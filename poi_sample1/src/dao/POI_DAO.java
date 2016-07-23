@@ -79,17 +79,7 @@ private Event <POI_IF> pendPoiDeleteEvent;
 			p.setRating_index(rating_index);
 			p.setDescript(descript);
 			p.setWeblink(weblink);
-			p.setPendStatus("CR");
 			em.persist(p);
-			
-			p.getSingle_avail();
-			p.getSingle_district();
-			p.getSingle_poi_add_cat();
-			p.getSingle_poi_main_cat();
-			p.getSingle_poi_period();
-			p.getSingle_poi_sub1();
-			p.getSingle_poi_sub2();
-			p.getSingle_status();
 			
 			return (POI_IF)p;
 			

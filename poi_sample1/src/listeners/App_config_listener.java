@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import entity_configurable.Constants_for_pois;
+import model.Create_poi_model;
 import model.Default;
 import model.Model;
 import utils_for_servlet.Web_page_config;
@@ -60,15 +61,19 @@ public class App_config_listener implements ServletContextListener {
 	    	 log.trace("ENTER setupWebPages(sce)");
 	    	 
 	    	 final Model defaultModel = new Default();
+	    	 final Model createPoint = new Create_poi_model();
 	
 	         final Map<String, Web_page_config> webPages = new LinkedHashMap<String, Web_page_config>();
 	
 	         final String path = sce.getServletContext().getContextPath();
-	         String[] r1 = {"guest"};
+	         
 	         String[] r4 = {"admin", "contrib", "subscrib", "user", "guest"};
 	         
-	         final Web_page_config homePage = new Web_page_config(path + "/map/main", "page.map.title", r1 ,
+	         final Web_page_config homePage = new Web_page_config(path + "/map/main", "page.map.title", r4 ,
 	          "/WEB-INF/jsp/map.jsp", true, defaultModel);
+	         
+	         final Web_page_config adminPage = new Web_page_config(path + "/map/admin", "page.Admin.title", r4,
+	        		 "/WEB-INF/jsp/adminPage.jsp", true, createPoint);
 	         
 	         final Web_page_config ajaxPage = new Web_page_config(path + "/map/ajax", null, r4,
 	   	         null, false, defaultModel);
@@ -84,6 +89,7 @@ public class App_config_listener implements ServletContextListener {
 	         webPages.put(how_to.getUri(), how_to);
 	         webPages.put(contactUsPage.getUri(), contactUsPage);
 	         webPages.put(ajaxPage.getUri(), ajaxPage);
+	         webPages.put(adminPage.getUri(), adminPage);
 	
 	         sce.getServletContext().setAttribute("webPages", webPages);
 	

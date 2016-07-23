@@ -110,6 +110,12 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 	@Override
 	public List<? extends POI_IF> select_filtered_POIs(Set <? extends POI_IF> pois_to_filter, Map <String, String []> data_to_filter) {
 		// TODO Auto-generated method stub
+		if (logger.isDebugEnabled() == false) {
+			logger.info("debug disabled");
+		};
+		
+		logger.info("enter select_filtered_POIs");
+		
 		List <? extends POI_IF> my_pois = new LinkedList <POI_IF> ();
 		Set <? extends POI_IF> temp_set1 = new HashSet <POI_IF>();
 		Set <? extends POI_IF> temp_set2 = new HashSet <POI_IF>();
@@ -353,7 +359,7 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 										  }
 		 ((List <POI_IF>)my_pois).addAll(temp_set1);
 
-		
+		logger.trace("exit select_filtered_POIs");
 		return my_pois;
 	}
 
@@ -371,6 +377,7 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 		for (POI_IF pe : pois_lst) {
 			map_of_pois.put(pe.getPoi_id(), pe);
 		}
+		
 		return map_of_pois;
 	}
 
@@ -386,12 +393,11 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 			js_obj.put("poi_name", p.getPoi_name());
 			js_obj.put("poi_lat", p.getPoi_lat());
 			js_obj.put("poi_lng", p.getPoi_lng());
-	//		js_obj.put("poi_type", p.getSingle_poi_sub1());
+			js_obj.put("poi_descr", p.getDescript());
 	//		js_obj.put("poi_subtype", p.getSingle_poi_sub2());
 			
 			lst.add(js_obj);
-		}
-		
+		}		
 		return lst;
 	}
 

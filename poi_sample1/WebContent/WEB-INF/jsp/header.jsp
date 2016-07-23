@@ -45,7 +45,6 @@
               </c:when>
               </c:choose>
               </c:forEach>
-               <li> <a href="<%= request.getContextPath() %>/user/profile">My Cabinet</a></li>
               </c:when>
                <c:otherwise>
                
@@ -74,31 +73,21 @@
         </div>
        </div>
        
-       <div class="container body-content" style="padding-top:40px;">
+        <div class="container body-content">
          <div class="row">
          <div class="col-md-3" id="1"></div> 
-         <div class="col-md-6" id="4">
-	         <div class="row">
-	         <div class="col-md-12" id="2-0"></div>
-	         <div class="col-md-12" id="44">
-	          <div class="row">
-	             	<div class="col-md-3" id="3-1"></div>
-	                <div class="col-md-3" id="3-2"></div>
-	                <div class="col-md-3" id="4-1"></div>
-	                <div class="col-md-3" id="4-2"></div>
-	            </div>
-	         </div>
-	          <div class="col-md-6" id="2-1"></div>
-	          <div class="col-md-6" id="2-2"></div>
-	          </div>
-	         </div>
-	     <div class="col-md-6" id="2"></div>
+
+	     <div class="col-md-6" id="2">
+	     <div class="row">
+	      	<div class="col-md-6" id="2-1"></div>
+	        <div class="col-md-6" id="2-2"></div>
+	        <div class="col-md-12" id="2-3"></div>
+	     </div>
+	     </div>
          <div class="col-md-3" id="3"></div>
          </div>
         
          </div>
-         <div class="push">
-        </div>
 
    
 </body>

@@ -20,8 +20,9 @@
 
 <body>
  	
-  <div class="col-md-6" id="4">
-  <div id="no_data_form" >    
+ <div class="col-md-6" id="2">
+ <p></p>
+ <div id="no_data_form" >    
 <c:choose>
  <c:when  test="${empty requestScope.success_message}">
  <p></p>
@@ -34,29 +35,6 @@
  </c:otherwise>
  </c:choose>
   </div>
-  
-  <div class="col-md-12" id="2-0">
-  
-  <c:choose>
- <c:when  test="${not empty requestScope.on_map}"> 
- <p></p>
-
-		<c:choose>
-  		 <c:when  test="${not empty sessionScope.user and empty sessionScope.pois_for_vis}">
-  			<form method="get" action="${pageContext.request.requestURI}">
-  			<input type="submit" name = "Add_selected" value="Copy filtered points" class="input-t1 btn btn-primary btn-xs" /> - save to you collection points you see on the map
-  			</form>
-  			<p></p>
-  			<form method="get" action="${pageContext.request.requestURI}">
-  			<input type="submit" name = "Add_selected_rt" value="Copy filtered routes" class="input-t1 btn btn-primary btn-xs" /> - save routes you see on the map to you collection
-  			
-  			</form>
-  			<p></p>
-			</c:when>
-  		</c:choose>		
-</c:when>
- </c:choose>  
- </div>
  <p></p>
   
  <c:choose>
@@ -88,9 +66,10 @@
   		</form>
   		</div>
   		</div>
+  		<p></p>
  		</c:when>
  		</c:choose>
- 		
+		
  <c:choose>
  		<c:when  test="${not empty requestScope.Add_to_gr and not empty requestScope.on_map}">
   		<div class="col-md-6" id="2-1">
@@ -138,11 +117,28 @@
   		</div>
  		</c:when>
  	</c:choose>	 
- </div>
+<!-- </div> --> 
 <p></p>
-<div class="col-md-6" id="2">     
+<!--  <div class="col-md-6" id="2"> -->
+
+<c:choose>
+  		 <c:when  test="${not empty requestScope.on_map and not empty sessionScope.user and empty sessionScope.pois_for_vis}">
+  			<form method="get" action="${pageContext.request.requestURI}">
+  			<input type="submit" name = "Add_selected" value="Copy filtered points" class="input-t1 btn btn-primary btn-xs" /> - save to you collection points you see on the map
+  			</form>
+  			<p></p>
+  			<form method="get" action="${pageContext.request.requestURI}">
+  			<input type="submit" name = "Add_selected_rt" value="Copy filtered routes" class="input-t1 btn btn-primary btn-xs" /> - save routes you see on the map to you collection
+  			
+  			</form>
+  			<p></p>
+			</c:when>
+  </c:choose>
+ 
+ <div class="col-md-12" id="2-3">		    
 <div id="map" >
 </div>
+<p></p>
 <div id = "routes_filters">
  <div style="text-align:center"><h3>Filters for routes:</h3></div>
  
@@ -152,26 +148,16 @@
  		<p></p>
  ... coming soon
  </div>
+ </div> 
 </div>
 
  	
-<input id="111" name="selectedData" value=""  />
+<!--input id="111" name="selectedData" value=""  /-->
 
 </body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/google_api.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/google_listener.js"></script>
-<script type="text/javascript">
-var listOfPOIs = ${requestScope.pois_for_vis};
-var elauatedListOfPOIs = eval(listOfPOIs);
-var poi_list = [];
-var index;
-for (var i = 0; i < elauatedListOfPOIs.length; i++ ) {
-	var poi = eval(elauatedListOfPOIs[i]);
-	poi.index = i + 1; 
-	poi_list.push(poi);
-}
-setMapView(JSON.stringify(poi_list));
-</script>
+
 
 
 

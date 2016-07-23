@@ -52,7 +52,6 @@ body div.edit .noedit{
 #map {
     height:700px;
     padding-color: White;
-   
 }
 
 
@@ -109,8 +108,8 @@ body div.edit .noedit{
 }
 
 #no_data_form {
-    background-color:#c0c0c0;
-    height:40px;
+    
+    height:30px;
     text-align:center;
 }
 

@@ -1,26 +1,27 @@
 var selected = {}; //{filter_key:[poi_id]}
-var filter_key = "";
-var poi_id = null;
-var poi_id_list = [];
 
 $('#scroll_form input').off().on('change', function(){
-	filter_key = $(this).attr("name");
-	poi_id = $(this).attr("value");
+	var filter_key = $(this).attr("name");
+	var poi_id = $(this).attr("value");
+
+	//check if selected dict has such key, if not crate empty list as value for this key
+	if (selected[filter_key] == undefined ){
+		selected[filter_key] = [];
+	}
 	
 	// if value is in the list 
-	if (poi_id_list.indexOf(poi_id) > -1){		
+	if (selected[filter_key].indexOf(poi_id) > -1){		
 		// get index of the value in the list
-		var i = poi_id_list.indexOf(poi_id);
+		var i = selected[filter_key].indexOf(poi_id);
 		// delete value from the list
-		poi_id_list.splice(i,1);
+		selected[filter_key].splice(i,1);
 	}
-	// if value in list
-	else{		
+	// if value not in the list
+	else{
 		// add value to the list
-		poi_id_list.push(poi_id);
+		selected[filter_key].push(poi_id);
 	}
 	// show the dict in input where id='111'
-	selected[filter_key] = poi_id_list;
 	$("#111").val(JSON.stringify(selected));
 
 	
