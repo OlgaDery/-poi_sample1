@@ -2,12 +2,9 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 <persistence-unit name="poi_app" transaction-type="JTA">
 	<jta-data-source>java:jboss/datasources/inventory</jta-data-source>
-		<class>entity.Group_entity</class>
-		<class>entity.POI_entity</class>
-		<class>entity.POI_pending_entity</class>
-		<class>entity.Route_entity</class>
-		<class>entity.User_entity</class>
-		<class>entity_configurable.District</class>
-		<class>entity_configurable.User_role</class>
+	<class>entity.POI_entity</class>
+		<properties>
+	 	<property name="hibernate.hbm2ddl.auto" value="update" />
+	 </properties>
 	</persistence-unit>
 </persistence>

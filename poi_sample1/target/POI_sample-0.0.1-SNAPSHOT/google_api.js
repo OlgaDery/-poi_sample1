@@ -29,6 +29,7 @@ var bounds = new google.maps.LatLngBounds();
 var markers = [];
 var initialPosition = {lat: 60.0, lng: 60.0};
 var current_marker = new google.maps.Marker();
+var infowindow = null;
 
 // Set initial postion first
 function getBrowserPosition(){	    
@@ -57,6 +58,7 @@ function initMap(){
 		},
 		zoom: 9	
 	});
+	infowindow = new google.maps.InfoWindow();
 };
 initMap();
 
@@ -105,21 +107,26 @@ function setMarkers(map, points) {
 	for (var i = 0; i < points.length; i++) {
 		var point = points[i];
 		//alert(JSON.stringify(point));
+		
 		var marker = new google.maps.Marker({
 			position: {lat: parseFloat(point.poi_lat), lng: parseFloat(point.poi_lng)},
 			map: map,
-			//icon: image,
-			//shape: shape,
-			label: String(point.poi_name),
-			title: String(point.poi_name),
-			//zIndex: String(point.type)
-			
+			//label: String(point.poi_name),
+			label: String(i),
+			title: String(point.poi_descr),			
+			html: '<div><strong>' + point.poi_name + '</strong><br>' +
+					      'description: ' + point.poi_descr + '<br>' +
+					      'URL: ' + point.poi_url + '</div>'
 		});
+		
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(this.html);
+			infowindow.open(map, this);
+			});
 		markers.push(marker);
 		bounds.extend(new google.maps.LatLng(parseFloat(point.poi_lat),parseFloat(point.poi_lng)));
-	}		
+	};		
 };
-
 
 google.maps.event.addListener(map, 'click', function(event) {
     current_marker.setMap(null);

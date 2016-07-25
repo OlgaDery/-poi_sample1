@@ -12,6 +12,7 @@ CREATE TABLE USERS (
   modified_by VARCHAR(100)
 );
 
+DELETE FROM APP.POIS;
 
 CREATE TABLE roles (
   role_name VARCHAR(10) NOT NULL,
