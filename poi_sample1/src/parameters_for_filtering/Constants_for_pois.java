@@ -1,7 +1,7 @@
 /**
  * 
  */
-package entity_configurable;
+package parameters_for_filtering;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Olga
+ * @author Olga Deryabina.
+ * Here we have the arrays of parameters for filtering points of interests. They are being stored as ServletContext attributes
+ * in the contextInitialized method of App_config_listener.
  *
  */
 public class Constants_for_pois {

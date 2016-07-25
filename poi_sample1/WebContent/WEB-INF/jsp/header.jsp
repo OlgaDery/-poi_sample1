@@ -29,42 +29,12 @@
         </div>
         <div class="navbar-collapse collapse" role="navigation">
             <ul class="nav navbar-nav">
-            <c:choose>
-            <c:when  test="${empty requestScope.current_role}">
-            	<c:forEach items="${applicationScope.webPages}" var="webPage">
-            	<c:choose>
-            	<c:when test="${webPage.value.displayInMenu == true }">
-            	<c:forEach items="${webPage.value.role}" var="r">
-            	<c:choose>
-             	<c:when test="${r eq requestScope.user_name}">
-             	<li> <a href="${webPage.value.uri}"><fmt:message key="${webPage.value.displayNameKey}" bundle="${pages}"/></a></li>
-              </c:when>
-              </c:choose>
-              </c:forEach>
-             
-              </c:when>
-              </c:choose>
-              </c:forEach>
-              </c:when>
-               <c:otherwise>
                
                <c:forEach items="${applicationScope.webPages}" var="webPage">
-            	<c:choose>
-            	<c:when test="${webPage.value.displayInMenu == true }">
-            	<c:forEach items="${webPage.value.role}" var="r">
-            	<c:choose>
-             	<c:when test="${r eq requestScope.current_role}">
+               <c:if test="${webPage.value.displayInMenu == true }">
              	 <li> <a href="${webPage.value.uri}"><fmt:message key="${webPage.value.displayNameKey}" bundle="${pages}"/></a></li>
-              </c:when>
-              </c:choose>
+           		 </c:if>
               </c:forEach>
-              
-              </c:when>
-              </c:choose>
-              </c:forEach>
-               <li>  <a href='<c:url value="/logout" />'>LOG OUT| ${pageContext.request.userPrincipal.name}</a> </li>
-              </c:otherwise>
-           </c:choose>
             </ul>
         </div>
     </div>

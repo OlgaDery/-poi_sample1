@@ -4,7 +4,9 @@
 package model;
 
 
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -18,11 +20,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bean_interfaces.POI_operations_stateless;
-import entity_configurable.Constants_for_pois;
+import parameters_for_filtering.Constants_for_pois;
 
 /**
- * @author Olga
- *
+ * @author Olga Deryabina
+ * This class is to process the text file with points of interest and to store them to the database. The absolute path 
+ * to the file is provided by user and receiving as a request parameter.
  */
 public class Create_poi_model implements Model {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -34,7 +37,7 @@ public class Create_poi_model implements Model {
 			context = new InitialContext();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
-			logger.info("naming exception()");
+			logger.info(e.getMessage(), e);
 		}
 		
 	}
@@ -53,10 +56,9 @@ public class Create_poi_model implements Model {
 		if (request.getParameter("uploadPs")!= null) 
 		{
 			
-	//		Path path = Paths.get("c:/opt", "pois.txt");
 			try 
 			{
-				Path path1 = Paths.get(request.getParameter("path"));//"c:/opt/pois.txt");
+				Path path1 = Paths.get(request.getParameter("path"));
 				List <String> lines = Files.readAllLines(path1);
 				po = (POI_operations_stateless) context.lookup("java:global/poi_app/POI_stateless_bean");
 				for (String line : lines)
@@ -100,10 +102,13 @@ public class Create_poi_model implements Model {
 				request.setAttribute("success_message", "your data succesfully inserted");
 				
 				
+			} catch (NullPointerException e) {
+				request.setAttribute("success_message", "you have not entered any path");
+			} catch (NoSuchFileException e) {
+				request.setAttribute("success_message", "sorry, file not found, try again");	
 			} catch (Exception e) {
 				logger.info(e.getMessage(), e);
 			}
-			
 		}
 		
 		logger.info("exit process");

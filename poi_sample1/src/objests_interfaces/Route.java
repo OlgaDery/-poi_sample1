@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Olga
- *
+ * @author Olga Deryabina
+ * This class is for later use.
  */
 public class Route {
 	private String route_id;

@@ -6,8 +6,9 @@ package utils_for_servlet;
 import model.Model;
 
 /**
- * @author Olga
- *
+ * @author Olga Deriabina
+ * This class allows to configure web pages for the application (all the configured pages are stored in the map and are set as
+ * a ServletContext attribute).
  */
 public class Web_page_config {
 

@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-//FUNCTIONALITY MIGRATED
 /**
  * @author Olga
  *
  */
-public class Modify_poi_model implements Model {
+public class Modify_poi_model implements Model 
+{
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 

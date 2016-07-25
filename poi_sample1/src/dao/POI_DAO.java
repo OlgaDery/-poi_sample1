@@ -11,40 +11,24 @@ import java.util.UUID;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ejb.PoiApproved;
-import ejb.PendPoiDeleted;
-import ejb.PoiModified;
 import entity.POI_entity;
 import objests_interfaces.POI_IF;
 
 /**
- * @author Olga
- *
+ * @author Olga Deryabina
+ * This class is specially designed to inject EntityManager to perform the manipulations with the POI_entity objects. 
+ * They are called from the POI_stateless_bean class.
  */
 @Stateless
 @LocalBean
 public class POI_DAO {
 private final Logger logger = LoggerFactory.getLogger(getClass());
 
-@Inject
-@PoiModified
-private Event <POI_IF> poiModEvent;
-
-@Inject
-@PoiApproved
-private Event <POI_IF> poiApproveEvent;
-
-@Inject
-@PendPoiDeleted
-private Event <POI_IF> pendPoiDeleteEvent;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -54,6 +38,7 @@ private Event <POI_IF> pendPoiDeleteEvent;
 			Integer status_index, Integer poi_main_cat_index, Integer poi_add_cat_index, Integer poi_sub1_index,
 			Integer poi_sub2_index, Integer poi_period_index, Integer rating_index, String descript, String weblink) 
 	{
+		//Creating a new POI_entity using provided parameters and inserting them to the database.
 		try {
 			logger.info("enter save(value)");
 			POI_entity p = new POI_entity();
@@ -91,14 +76,21 @@ private Event <POI_IF> pendPoiDeleteEvent;
 	}
 	
 	
-	public POI_entity finddPoiEntity (String poiID) {
+	public POI_entity finddPoiEntity (String poiID) 
+	//Searching for a certain point of interest by ID
+	{
+		logger.info("enter finddPoiEntity (String poiID) ");
 		POI_entity p = em.find(POI_entity.class, poiID);
+		
+		logger.info("exit finddPoiEntity (String poiID) ");
 		return p;
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<? extends POI_IF> select_all_POIs() {
+	public List<? extends POI_IF> select_all_POIs() 
+	{
+		//Selecting all the points of interest from the database
 		logger.info("enter select_all_POIs()");
 		// TODO Auto-generated method stub
 		try {
@@ -118,7 +110,7 @@ private Event <POI_IF> pendPoiDeleteEvent;
 			
 		} finally {
 			logger.info("exit select_all_POIs()");
-		//	em.clear();
+		
 		}
 		
 	}
@@ -126,6 +118,7 @@ private Event <POI_IF> pendPoiDeleteEvent;
 	
 	public List<POI_IF> select_pois_by_id (Set<String> poi_ids) 
 	{
+		logger.info("enter select_pois_by_id (Set<String> poi_ids) ");
 		try {
 			List <POI_IF> my_pois = new LinkedList <POI_IF>();
 			for (String id : poi_ids) 
@@ -155,8 +148,8 @@ private Event <POI_IF> pendPoiDeleteEvent;
 			Integer status_index, Integer poi_main_cat_index, Integer poi_add_cat_index, Integer poi_sub1_index,
 			Integer poi_sub2_index, Integer poi_period_index, Integer rating_index, String descript, String weblink, String modified_by) 
 	{ 
-		//check if this poi is already in pending table
-		logger.info("staring to update published poi");
+		//updating a POI_entity in the database
+		logger.info("enter updatePublPoi");
 		POI_entity p = null;
 		try {
 			p = em.find(POI_entity.class, poi_id);
@@ -181,7 +174,7 @@ private Event <POI_IF> pendPoiDeleteEvent;
 			p.setWeblink(weblink);
 			p.setModifDate(new Date());
 			p.setModified_by(modified_by);
-			p.setPendStatus("UPD");
+			
 			em.flush();
 			
 			p.getSingle_avail();

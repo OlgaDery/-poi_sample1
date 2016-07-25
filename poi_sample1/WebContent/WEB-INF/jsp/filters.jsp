@@ -14,6 +14,7 @@
 
  <div class="col-md-3" id="3"> 
  <div style="text-align:center"><h3>Filters for attractions:</h3></div>
+ If you need more details about any shown point, click the marker on the map. 
   <c:choose>
 	 <c:when  test="${not empty sessionScope.show_collect}">
  	<p></p>
@@ -38,7 +39,9 @@
 	<input type="checkbox" name = "district" disabled="disabled" value="${d}">${d}<br>
 	 </c:when>
 	 <c:otherwise>
+	 <c:if  test="${d eq 'Nizhnyaya Salda' or d eq 'Verkhne-saldinsky'}">
  	<input type="checkbox" name = "district" value="${d}">${d}<br>
+ 	</c:if>
  	</c:otherwise>
  	</c:choose>
    </c:forEach>
@@ -148,7 +151,7 @@
   <div class="panel-body">
   <div id="scroll_form">
 <c:forEach items="${applicationScope.period}" var="pr">
-<c:if  test="${pr ne 'n/a'}">
+<c:if  test="${pr ne 'n/a' and pr ne 'stone age' and pr ne 'neolith'}">
 <c:choose>
 	<c:when  test="${not empty sessionScope.show_collect}">
 	<input type="checkbox" name = "period" disabled="disabled" value="${pr}">${pr}<br>

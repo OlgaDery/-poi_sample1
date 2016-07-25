@@ -9,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Olga
- *
+ * @author Olga Deryabina
+ * Default model class which is used for the url where no database manipulations is required.
  */
-public class Default implements Model {
+public class Default implements Model 
+{
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 

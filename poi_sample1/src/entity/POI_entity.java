@@ -17,13 +17,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import entity_configurable.Constants_for_pois;
 import objests_interfaces.POI_IF;
+import parameters_for_filtering.Constants_for_pois;
 
 
 /**
- * @author Olga
- *
+ * @author Olga Deryabina
+ * This entity class is the implementation of the POI_IF interface. It maps the Java object with all the necessary attributes to
+ * the database table and allows to work with the database using JPA functionality. It contains the native methods to manipulate the
+ * entity objects as far as some methods inherited from POI_IF interface to create the objects with extra attributes and to convert
+ * them to POI_IF to manipulate them on the front end.
  */
 @Entity(name = "POI_entity")
 @Table(name = "pois")
@@ -117,7 +120,7 @@ public class POI_entity implements POI_IF
 	/**
 	 * @param creator_id the creator_id to set
 	 */
-	@Override
+	
 	public void setCreator_id(String creator_id) {
 		this.creator_id = creator_id;
 	}
@@ -387,11 +390,7 @@ public class POI_entity implements POI_IF
 	public void setModified_by(String modified_by) {
 		this.modified_by = modified_by;
 	}
-	@Override
-	public void setPendStatus(String pendStatus) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	@Override
 	/**
@@ -407,80 +406,47 @@ public class POI_entity implements POI_IF
 		// TODO Auto-generated method stub
 		return Constants_for_pois.status[this.status_index];
 	}
-	@Override
-	public void setSingle_status(String status) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_poi_sub2() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.poi_sub2[this.poi_sub2_index];
 	}
-	@Override
-	public void setSingle_poi_sub2(String subcat2) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_district() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.district[this.district_index];
 	}
-	@Override
-	public void setSingle_district(String district) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_avail() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.avail[this.avail_index];
 	}
-	@Override
-	public void setSingle_avail(String avail) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_poi_main_cat() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.poi_main_cat[this.poi_main_cat_index];
 	}
-	@Override
-	public void setSingle_poi_main_cat(String mainCat) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_poi_add_cat() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.poi_add_cat[this.poi_add_cat_index];
 	}
-	@Override
-	public void setSingle_poi_add_cat(String addCat) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_poi_sub1() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.poi_sub1[this.poi_sub1_index];
 	}
-	@Override
-	public void setSingle_poi_sub1(String sub1) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	@Override
 	public String getSingle_poi_period() {
 		// TODO Auto-generated method stub
 		return Constants_for_pois.poi_period[this.poi_period_index];
-	}
-	@Override
-	public void setSingle_poi_period(String period) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/* (non-Javadoc)

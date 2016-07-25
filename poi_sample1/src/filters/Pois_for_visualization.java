@@ -29,8 +29,12 @@ import bean_interfaces.POI_operations_stateless;
 import objests_interfaces.POI_IF;
 
 /**
- * Servlet Filter implementation class Pois_for_visualization_filter
- */
+ * Servlet Filter implementation class Pois_for_visualization_filter. This is a special filter for the url 
+ * reserved for communication to Ajax listener, responsible for the visualization of points on the Google map.
+ * The doFilter method gets the parameter for points filtering, calls the EJB method what is designed to select the points
+ * by certain parameters, then calls the another method to create a Json array from a list of points,
+ * and sends this json array to Ajax.
+ */ 
 @WebFilter(
 		filterName="Pois_for_visualization",
 		dispatcherTypes = {
@@ -61,9 +65,6 @@ public class Pois_for_visualization implements Filter {
 		// TODO Auto-generated method stub
 		// place your code here
 		
-		//IMPORTANT: after having the event listeners created in will be more efficient to keep the list of previously selected
-		//values and parameters. At this case we will need just to add or remove one param to the previous selection
-		// unless "CLEAR_ALL button is submitted"
 		
 		logger.info("ENTER dofilter((ServletRequest, ServletResponse)");
 		POI_operations_stateless po;
@@ -79,10 +80,7 @@ public class Pois_for_visualization implements Filter {
 					data.containsKey("avail[]")||data.containsKey("period[]")||data.containsKey("spec_places[]"))//(request.getParameter("Select_poi_filters")!= null) 
 					{
 						logger.info("map size: {}", request.getParameterMap().size());
-						
-//						if (data.keySet().contains("Select_poi_filters")) {
-//							data.remove("Select_poi_filters", data.get("Select_poi_filters"));
-//						}
+
 						try {
 							po = (POI_operations_stateless) context.lookup("java:global/poi_app/POI_stateless_bean");
 							List <? extends POI_IF> pois_all = po.select_all();
@@ -109,47 +107,13 @@ public class Pois_for_visualization implements Filter {
 							logger.info(e.getMessage(), e);
 						}	
 					}
-			else {
-				if (data.containsKey("Poi_to_copy[]")||data.containsKey("pois_of_user[]")||data.containsKey("Poi_in_group[]")
-					||data.containsKey("groups_of_user[]")||data.containsKey("group_to_copy_to[]"))
-				//	||data.containsKey("district[]")||data.containsKey("poi_subc1[]")||data.containsKey("poi_subc2[]"))
-				{
-					
-//					for (String key : data.keySet()) {
-//						logger.info("key {}:", key);
-//					}
-//						
-					
-					try {
-						po = (POI_operations_stateless) context.lookup("java:global/poi_app/POI_stateless_bean");
-						my_pois = po.selectPoisToShow(data);
-						lst = po.returnJson(my_pois);
-						logger.info("json list :{}", lst.size());
-						
-						//HOW TO SEND JSON&&&
-					} catch (Exception e) {
-						logger.info(e.getMessage(), e);
-					}
-					
-				}
-			}
+
 			request.setAttribute("pois_for_vis", lst);
 			response.setContentType("application/json");
-//			response.setContentType("text/html");
-			StringBuilder sb = new StringBuilder();
-			sb.append("[");
-			for (POI_IF poi : my_pois)
-			{
-				sb.append("{").append("'id'").append(":'").append(poi.getPoi_name()).append("',").append("'poi_lat'").append(":").append(poi.getPoi_lat()).append(",").
-				append("'poi_lng'").append(":").append(poi.getPoi_lng()).append("},");
-								
-			}
-			sb.delete((sb.length()-1), sb.length());
-			sb.append("]");
-			logger.info(sb.toString());
+
 			PrintWriter out = response.getWriter();
 						
-			out.print(lst);//sb.toString());//);
+			out.print(lst);
 			out.flush();
 		}
 

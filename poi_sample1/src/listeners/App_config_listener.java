@@ -10,10 +10,10 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import entity_configurable.Constants_for_pois;
 import model.Create_poi_model;
 import model.Default;
 import model.Model;
+import parameters_for_filtering.Constants_for_pois;
 import utils_for_servlet.Web_page_config;
 
 /**
@@ -37,13 +37,15 @@ public class App_config_listener implements ServletContextListener {
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent sce)  { 
+    public void contextInitialized(ServletContextEvent sce)  
+    { 
+    	//Here we are setting all the attributes for the application (parameters to filter points, web pages)
+    	
          // TODO Auto-generated method stub
     	log.info("ENTER contextInitialized(sce)");
     	
     	setupWebPages(sce);
    	
-    	// set the rest of attributes storing the data from singleton EJBs
 
     	sce.getServletContext().setAttribute("districts", Constants_for_pois.district);
     	sce.getServletContext().setAttribute("status", Constants_for_pois.status);
@@ -57,10 +59,14 @@ public class App_config_listener implements ServletContextListener {
     	log.info("EXIT contextInitialized(sce)");
     }
     
-    private void setupWebPages(ServletContextEvent sce) {
-	    	 log.trace("ENTER setupWebPages(sce)");
+    private void setupWebPages(ServletContextEvent sce) 
+    {
+    	//This method is to configure all the web pages for the application - to tie a certain jsp file to the url, to the model class
+    	//which access the business logic level, to set the title and the visibility level.
+	    	 log.info("ENTER setupWebPages(sce)");
 	    	 
 	    	 final Model defaultModel = new Default();
+	    	 
 	    	 final Model createPoint = new Create_poi_model();
 	
 	         final Map<String, Web_page_config> webPages = new LinkedHashMap<String, Web_page_config>();
@@ -93,7 +99,7 @@ public class App_config_listener implements ServletContextListener {
 	
 	         sce.getServletContext().setAttribute("webPages", webPages);
 	
-	         log.trace("ENTER setupWebPages(sce)");
+	         log.info("ENTER setupWebPages(sce)");
     }
     
 	
