@@ -17,6 +17,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Olga/Desktop/study/db-derby-10.12.1.1-bin/lib/derbyclient.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -4,7 +4,6 @@
 package ejb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -106,6 +105,7 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 		};
 		
 		logger.info("enter select_filtered_POIs");
+		Boolean loopIsDone = false;
 		
 		List <? extends POI_IF> my_pois = new LinkedList <POI_IF> ();
 		Set <? extends POI_IF> temp_set1 = new HashSet <POI_IF>();
@@ -116,23 +116,14 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 		
 		
 		 Set <String> param_names1 = data_to_filter.keySet();
-		 List <String> paramNames = new ArrayList <String> (param_names1);
+		 List <String> paramNames = new LinkedList <String> ();
 		 for (String name : param_names1) 
 		 {
-			 if (!(name.equals("poi_subc1[]")) || !(name.equals("poi_subc2[]"))) 
+			 if (!name.equals("poi_subc1[]") || !name.equals("poi_subc2[]")) 
 			 {
 				 paramNames.add(name);
+				 logger.info(name);
 			 }
-		 }
-		 
-		 if (param_names1.contains("poi_subc1[]")) 
-		 {
-			 paramNames.add("poi_subc1[]");
-		 }
-		 
-		 if (param_names1.contains("poi_subc2[]")) 
-		 {
-			 paramNames.add("poi_subc2[]");
 		 }
 		 
 		 
@@ -165,9 +156,10 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 				  ((Set <POI_IF>)temp_set1).addAll(temp_set2);
 				  temp_set2.clear();
 				  count = count+1;
-				  if (count == data_to_filter.size()) 
+				  if (count == paramNames.size()) 
 				  {
 					  logger.info("we are done");
+					  loopIsDone = true;
 					  break;
 				  }
 				  else
@@ -192,9 +184,10 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 						  temp_set2.clear();
 						
 						  count = count+1;
-						  if (count == data_to_filter.size()) 
+						  if (count == paramNames.size()) 
 						  {
 							  logger.info("we are done");
+							  loopIsDone = true;
 							  break;
 						  }
 						  else
@@ -218,9 +211,10 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 							  ((Set <POI_IF>)temp_set1).addAll(temp_set2);
 							  temp_set2.clear();
 							  count = count+1;
-							  if (count == data_to_filter.size()) 
+							  if (count == paramNames.size()) 
 							  {
 								  logger.info("we are done");
+								  loopIsDone = true;
 								  break;
 							  }
 							  else
@@ -244,8 +238,9 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 								  ((Set <POI_IF>)temp_set1).addAll(temp_set2);
 								  temp_set2.clear();
 								  count = count+1;
-								  if (count == data_to_filter.size()) 
+								  if (count == paramNames.size()) 
 								  {
+									  loopIsDone = true;
 									  logger.info("we are done");
 									  break;
 								  }
@@ -272,8 +267,9 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 												  temp_set2.clear();
 												 
 												  count = count+1;
-												  if (count == data_to_filter.size()) 
+												  if (count == paramNames.size()) 
 												  {
+													  loopIsDone = true;
 													  logger.info("we are done");
 													  break;
 												  }
@@ -298,86 +294,118 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 												  temp_set2.clear();
 												 
 												  count = count+1;
-												  if (count == data_to_filter.size()) 
+												  if (count == paramNames.size()) 
 												  {
 													  logger.info("we are done");
+													  loopIsDone = true;
+													  break;
+												  }
+												  else
+													  continue;
+												  
+											  } else
+												  count = count+1;
+												  if (count == paramNames.size()) 
+												  {
+													  logger.info("we are done");
+													  loopIsDone = true;
 													  break;
 												  }
 												  else
 													  continue;
 												  
 											  }
-											  else {
-											  if (name.equals("poi_subc1[]")) 
-											  {
-												  param_values = data_to_filter.get(name);
-												  values1 = Arrays.asList(param_values);
-												  for (POI_IF p : temp_set1)
-												  {
-													  if (values1.contains(Constants_for_pois.poi_sub1[p.getPoi_sub1_index()])) 
-													  {
-														  ((Set <POI_IF>)temp_set2).add(p);
-													  }
-													  
-												  }
-												  logger.info("temp set 1 {}:", temp_set1.size());
-												  logger.info("temp set 2 {}:", temp_set2.size());
 												 
-												  count = count+1;
-												  if (count == data_to_filter.size()) 
-												  {
-													  logger.info("we are done");
-													  temp_set1.clear();
-													  ((Set <POI_IF>)temp_set1).addAll(temp_set2);
-													  temp_set2.clear();
-													  break;
-												  }
-												  else
-													  continue;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+											  
+										  
+					
+					if (loopIsDone == true && param_names1.contains("poi_subc1[]") && param_names1.contains("poi_subc2[]")) 
+					{
+									  
+						param_values = data_to_filter.get("poi_subc1[]");
+						String [] parValues2 = data_to_filter.get("poi_subc2[]");
+						values1 = Arrays.asList(param_values);
+						List <String> val2 = Arrays.asList(parValues2);
+						for (POI_IF p : temp_set1)
+							{
+								if (values1.contains(Constants_for_pois.poi_sub1[p.getPoi_sub1_index()])) 
+										{
+											((Set <POI_IF>)temp_set2).add(p);
+										}
+													  
+								}
+						for (POI_IF p : temp_set1)
+						{
+							if (val2.contains(Constants_for_pois.poi_sub2[p.getPoi_sub2_index()])) 
+									{
+										((Set <POI_IF>)temp_set2).add(p);
+									}
+												  
+							}
+						temp_set1.clear();
+						((Set <POI_IF>)temp_set1).addAll(temp_set2);
+						temp_set2.clear();
+						
+						logger.info("we are done");						 
+
 			
-												  }
-											  else 
-											  {
-												  if (name.equals("poi_subc2[]")) 
+						} else 
+							{
+							if (loopIsDone == true && param_names1.contains("poi_subc1[]")) 
+						
 												  {
-													  param_values = data_to_filter.get(name);
+													  param_values = data_to_filter.get("poi_subc1[]");
 													  values1 = Arrays.asList(param_values);
 													  for (POI_IF p : temp_set1)
 													  {
-														  if (values1.contains(Constants_for_pois.poi_sub2[p.getPoi_sub2_index()])) {
+														  if (values1.contains(Constants_for_pois.poi_sub1[p.getPoi_sub1_index()])) {
 															  ((Set <POI_IF>)temp_set2).add(p);
 														  }
 														  
 													  }
-													  temp_set1.clear();
-													  ((Set <POI_IF>)temp_set1).addAll(temp_set2);
-													  logger.info("temp set 1 {}:", temp_set1.size());
-													  logger.info("temp set 2 {}:", temp_set2.size());
-													  temp_set2.clear();
-													  count = count+1;
-													  if (count == data_to_filter.size()) 
+													temp_set1.clear();
+													((Set <POI_IF>)temp_set1).addAll(temp_set2);
+													temp_set2.clear();
+													  
+													  logger.info("we are done");
+													
+													  } else 
 													  {
-														  logger.info("we are done");
-														  break;
-													  }
-													  else
-														  continue;
+															if (loopIsDone == true && param_names1.contains("poi_subc2[]")) 
+																
+															  {
+																  param_values = data_to_filter.get("poi_subc2[]");
+																  values1 = Arrays.asList(param_values);
+																  for (POI_IF p : temp_set1)
+																  {
+																	  if (values1.contains(Constants_for_pois.poi_sub2[p.getPoi_sub2_index()])) {
+																		  ((Set <POI_IF>)temp_set2).add(p);
+																	  }
+																	  
+																  }
+																temp_set1.clear();
+																((Set <POI_IF>)temp_set1).addAll(temp_set2);
+																temp_set2.clear();
+																  
+																  logger.info("we are done");
+																
+																  }
+													
 													 
 													  }
-											  else
-												  logger.info("error with data");
-											  }
-												 
-											  }
-											  }
-											  }
-											  }
-											  }
-											  }
-											  }
-											  }
-										  }
-		 ((List <POI_IF>)my_pois).addAll(temp_set1);
+						}
+			
+		
+											  
+		((List <POI_IF>)my_pois).addAll(temp_set1);
+		temp_set1.clear();
 
 		logger.info("exit select_filtered_POIs");
 		return my_pois;
