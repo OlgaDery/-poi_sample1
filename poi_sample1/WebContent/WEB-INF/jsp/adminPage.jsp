@@ -11,9 +11,7 @@
 </head>
 
 <body>
-<div class="col-md-6" id="2">
-<p></p>
- <div id="no_data_form" >       
+<div id="no_data_form" >       
 <c:choose>
  <c:when  test="${empty requestScope.success_message}">
  <p></p>
@@ -29,20 +27,8 @@
   
   <p></p> 
    <form method="post" action="${pageContext.request.requestURI}">
-  <div class="panel panel-default" style="text-align:center">
-      <!-- Default panel contents -->
-     <div class="panel-heading" style="text-align:center" >ENTER THE PATH TO THE FILE WITH YOUR POINTS AND PRESS THE BUTTON:</div>
-	  <table class="table table-hover table-condensed">
-	    <tr>
-	        <td>Path (like c:/opt/pois.txt):</td>
-	        <td><input type="text" name="path" value="" required/></td>
-	    </tr>
-	    </table>
-	    <input type="submit" name = "uploadPs" value = "Upload points" class = "input-t1 btn btn-success btn-sm"/> 
-	    </div>
+      <input type="submit" name = "uploadPs" value = "Upload points" class = "input-t1 btn btn-success btn-lg"/> 
   
- 		</form>
-   
- </div>
+  </form>
 </body>
 </html>

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ejb.FiltersEJB;
 import model.Create_poi_model;
 import model.Default;
 import model.Model;
@@ -47,14 +48,14 @@ public class App_config_listener implements ServletContextListener {
     	setupWebPages(sce);
    	
 
-    	sce.getServletContext().setAttribute("districts", Constants_for_pois.district);
+    	sce.getServletContext().setAttribute("districts", FiltersEJB.getDistr());
     	sce.getServletContext().setAttribute("status", Constants_for_pois.status);
-    	sce.getServletContext().setAttribute("spec_places", Constants_for_pois.poi_add_cat);
-    	sce.getServletContext().setAttribute("period", Constants_for_pois.poi_period);
+    	sce.getServletContext().setAttribute("spec_places", FiltersEJB.getAdd_cat());
+    	sce.getServletContext().setAttribute("period", FiltersEJB.period);
     	sce.getServletContext().setAttribute("rating", Constants_for_pois.rating);
-    	sce.getServletContext().setAttribute("avail", Constants_for_pois.avail);
-    	sce.getServletContext().setAttribute("poi_subcat1", Constants_for_pois.poi_sub1);
-    	sce.getServletContext().setAttribute("poi_subcat2", Constants_for_pois.poi_sub2);
+    	sce.getServletContext().setAttribute("avail", FiltersEJB.avail);
+    	sce.getServletContext().setAttribute("poi_subcat1", FiltersEJB.getSubcat1());
+    	sce.getServletContext().setAttribute("poi_subcat2", FiltersEJB.getSubcat2());
         
     	log.info("EXIT contextInitialized(sce)");
     }
@@ -83,16 +84,13 @@ public class App_config_listener implements ServletContextListener {
 	         
 	         final Web_page_config ajaxPage = new Web_page_config(path + "/map/ajax", null, r4,
 	   	         null, false, defaultModel);
-	         
-	         final Web_page_config how_to = new Web_page_config(path + "/map/how_to", "page.how_to.title", r4,
-	                 "/WEB-INF/jsp/how_to.jsp", true, defaultModel);
+	       
 	         
 	         final Web_page_config contactUsPage = new Web_page_config(path + "/map/contactus", "page.contactus.title", r4, 
 	                 "/WEB-INF/jsp/contactus.jsp", true, defaultModel);
 	
 	
 	         webPages.put(homePage.getUri(), homePage);
-	         webPages.put(how_to.getUri(), how_to);
 	         webPages.put(contactUsPage.getUri(), contactUsPage);
 	         webPages.put(ajaxPage.getUri(), ajaxPage);
 	         webPages.put(adminPage.getUri(), adminPage);

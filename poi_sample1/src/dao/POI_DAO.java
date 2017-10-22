@@ -95,17 +95,7 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 		// TODO Auto-generated method stub
 		try {
 			List<POI_entity> all_p = em.createNamedQuery(POI_entity.QUERY_SELECT_ALL_P).getResultList();
-			for (POI_entity p : all_p) 
-			{
-				p.getSingle_avail();
-				p.getSingle_district();
-				p.getSingle_poi_add_cat();
-				p.getSingle_poi_main_cat();
-				p.getSingle_poi_period();
-				p.getSingle_poi_sub1();
-				p.getSingle_poi_sub2();
-				p.getSingle_status();
-			}
+			
 			return (List<? extends POI_IF>)all_p;
 			
 		} finally {
@@ -124,15 +114,6 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 			for (String id : poi_ids) 
 			{
 					POI_entity p = em.find(POI_entity.class, id);
-					p.getSingle_avail();
-					p.getSingle_district();
-					p.getSingle_poi_add_cat();
-					p.getSingle_poi_main_cat();
-					p.getSingle_poi_period();
-					p.getSingle_poi_sub1();
-					p.getSingle_poi_sub2();
-					p.getSingle_status();
-				
 					my_pois.add((POI_IF)p);
 			}
 			
@@ -176,15 +157,6 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 			p.setModified_by(modified_by);
 			
 			em.flush();
-			
-			p.getSingle_avail();
-			p.getSingle_district();
-			p.getSingle_poi_add_cat();
-			p.getSingle_poi_main_cat();
-			p.getSingle_poi_period();
-			p.getSingle_poi_sub1();
-			p.getSingle_poi_sub2();
-			p.getSingle_status();
 			return (POI_IF) p;
 			
 		} finally {

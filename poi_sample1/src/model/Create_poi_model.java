@@ -4,20 +4,21 @@
 package model;
 
 
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import bean_interfaces.POI_operations_singl;
 import bean_interfaces.POI_operations_stateless;
 import parameters_for_filtering.Constants_for_pois;
 
@@ -28,16 +29,14 @@ import parameters_for_filtering.Constants_for_pois;
  */
 public class Create_poi_model implements Model {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	private InitialContext context;
 	
-	public Create_poi_model ()
-	{
-		try {
-			context = new InitialContext();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			logger.info(e.getMessage(), e);
-		}
+	@EJB
+	POI_operations_stateless po;
+	
+	@EJB
+	POI_operations_singl pointSingl;
+	
+	public Create_poi_model (){
 		
 	}
 
@@ -50,63 +49,73 @@ public class Create_poi_model implements Model {
 	{
 		// TODO Auto-generated method stub
 		logger.info("enter process");
-		POI_operations_stateless po;
 		
 		if (request.getParameter("uploadPs")!= null) 
 		{
 			
 			try 
 			{
-				Path path1 = Paths.get(request.getParameter("path"));
-				List <String> lines = Files.readAllLines(path1);
-				po = (POI_operations_stateless) context.lookup("java:global/poi_app/POI_stateless_bean");
-				for (String line : lines)
+			
+				URL url = new URL ("http://localhost:8080/poi_app/poi.txt");
+				logger.info("url: {}", url);
+				List <String> lines = new LinkedList <String>();
+				BufferedReader in = new BufferedReader(
+					        new InputStreamReader(url.openStream()));
+				 		
+					        String line;
+					        while ((line = in.readLine()) != null) {
+					        	System.out.println(line);
+					        	lines.add(line);
+					        }
+					        in.close();
+				
+				logger.info("size: {}", lines.size());
+				for (String line1 : lines) 
 				{
-					
-					String [] data = line.split("&");
-					logger.info("name: {}", data[0]);
-					logger.info("long: {}", data[1]);
-					logger.info("lat: {}", data[2]);
-					logger.info("distr: {}", data[4]);
-					logger.info("avail: {}", data[5]);
-					logger.info("main cat: {}", data[6]);
-					logger.info("add cat: {}", data[7]);
-					logger.info("sub1: {}", data[8]);
-					logger.info("sub2: {}", data[9]);
-					logger.info("period: {}", data[10]);
-					logger.info("rating: {}", data[11]);
-					logger.info("descr: {}", data[12]);
+					String [] data = line1.split("&");
 					
 					po.create_POI
 					("admin", data[0], 0, 
-							Float.parseFloat(data[1]), 
-							Float.parseFloat(data[2]), 
-							"n/a", 
-							"n/a", 
-							"n/a", 
-							"n/a", 
-							 Arrays.asList(Constants_for_pois.district).indexOf(data[4]), 
-     						 Arrays.asList(Constants_for_pois.avail).indexOf(data[5]),
-     						 Arrays.asList(Constants_for_pois.status).indexOf(data[3]), 
-     						 Arrays.asList(Constants_for_pois.poi_main_cat).indexOf(data[6]),
-     						 Arrays.asList(Constants_for_pois.poi_add_cat).indexOf(data[7]),
-     						 Arrays.asList(Constants_for_pois.poi_sub1).indexOf(data[8]),
-     						 Arrays.asList(Constants_for_pois.poi_sub2).indexOf(data[9]), 
-     						 Arrays.asList(Constants_for_pois.poi_period).indexOf(data[10]),
-     						 (Integer.valueOf(data[11])),
-							 data[12], 
-							 "n/a");
-				};
+						Float.parseFloat(data[1]), 
+						Float.parseFloat(data[2]), 
+						"n/a", 
+						"n/a", 
+						"n/a", 
+						"n/a", 
+						 Arrays.asList(Constants_for_pois.district).indexOf(data[4]), 
+ 						 Arrays.asList(Constants_for_pois.avail).indexOf(data[5]),
+ 						 Arrays.asList(Constants_for_pois.status).indexOf(data[3]), 
+ 						 Arrays.asList(Constants_for_pois.poi_main_cat).indexOf(data[6]),
+ 						 Arrays.asList(Constants_for_pois.poi_add_cat).indexOf(data[7]),
+ 						 Arrays.asList(Constants_for_pois.poi_sub1).indexOf(data[8]),
+ 						 Arrays.asList(Constants_for_pois.poi_sub2).indexOf(data[9]), 
+ 						 Arrays.asList(Constants_for_pois.poi_period).indexOf(data[10]),
+ 						 (Integer.valueOf(data[11])),
+						 data[12], 
+						 "n/a");
+		     
+				}
 				logger.info("data inserted");
-				request.setAttribute("success_message", "your data succesfully inserted");
+				
+				try {
+			        pointSingl.uploadPsFromDB();
+					logger.info("data uploaded");
+					request.setAttribute("success_message", "your data succesfully inserted");
+					
+				} catch (Exception e) {
+						// TODO Auto-generated catch block
+					logger.info(e.getMessage(), e);
+					request.setAttribute("success_message", "the error occures");
+				}
 				
 				
-			} catch (NullPointerException e) {
-				request.setAttribute("success_message", "you have not entered any path");
-			} catch (NoSuchFileException e) {
-				request.setAttribute("success_message", "sorry, file not found, try again");	
+				
+			} catch (MalformedURLException e) {
+				logger.info(e.getMessage(), e);
+				request.setAttribute("success_message", "the path is wrong");	
 			} catch (Exception e) {
 				logger.info(e.getMessage(), e);
+				request.setAttribute("success_message", "the error occures");
 			}
 		}
 		

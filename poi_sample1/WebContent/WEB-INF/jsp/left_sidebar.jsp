@@ -7,47 +7,90 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="<%=application.getContextPath() %>/styles/main.css">
+
 </head>
-
 <body>
-    <div class="col-md-3" style="text-align:center" id="1">
- <div id = "space"   ></div>
- <div class="media">
-  <div class="media-left">
-    <a href="#">
-      <img class="media-object" src="${pageContext.request.contextPath}/images/IMG_5534.JPG" alt="...">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">NEW POINT:</h4>
-    find out more...
-  </div>
-</div>
 
-<div class="media">
-  <div class="media-left">
-    <a href="#">
-      <img class="media-object" src="${pageContext.request.contextPath}/images/295.jpg" alt="...">
-    </a>
-  </div>
-  <div class="media-body">
-    <h4 class="media-heading">BEST ROUTE:</h4>
-    find out more...
-  </div>
-</div>
 
-<div class="media">
-  <div class="media-left">
-    <a href="#">
-      <img class="media-object" src="${pageContext.request.contextPath}/images/271.jpg" alt="our events">
-    </a>
+ <div class="col-md-3" id="3"> 
+ <div style="text-align:center"><h3>Filters for attractions:</h3></div>
+ If you need more details about any shown point, click the marker on the map. 
+  <c:choose>
+   <c:when  test="${not empty sessionScope.show_collect}">
+  <p></p>
+    <form method="get" action="${pageContext.request.requestURI}">
+    <input type="submit" name = "filter_pois_only" value="Enable filters for points" class = "input-t1 btn btn-success btn-sm"/>
+    </form>
+    <p></p>
+    </c:when>
+  </c:choose>
+  
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading" style="text-align:center">Select availability</div>
+  <div class="panel-body">
+  <div id="scroll_form">
+<c:forEach items="${applicationScope.avail}" var="av">
+<c:choose>
+   <c:when  test="${not empty sessionScope.show_collect}">
+  <input type="checkbox" name = "avail" disabled="disabled" value="${av}">${av}<br>
+   </c:when>
+   <c:otherwise>
+  <input type="checkbox" name = "avail" value="${av}">${av}<br>
+  </c:otherwise>
+  </c:choose>
+ </c:forEach>
   </div>
-  <div class="media-body">
-    <h4 class="media-heading">EVENTS:</h4>
-    find out more...
-  </div>
-</div>
-		</div>
-     
+ </div>  
+ </div> 
+  
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading" style="text-align:center">Select historical period</div>
+  <div class="panel-body">
+  <div id="scroll_form">
+<c:forEach items="${applicationScope.period}" var="pr">
+<c:if  test="${pr ne 'n/a' and pr ne 'stone age' and pr ne 'neolith'}">
+<c:choose>
+  <c:when  test="${not empty sessionScope.show_collect}">
+  <input type="checkbox" name = "period" disabled="disabled" value="${pr}">${pr}<br>
+   </c:when>
+   <c:otherwise>
+    <input type="checkbox" name = "period" value="${pr}">${pr}<br>
+    </c:otherwise>
+    </c:choose>
+    </c:if>
+    </c:forEach>
+   </div>
+ </div> 
+ </div>
+   
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading" style="text-align:center">Remarkable places</div>
+  <div class="panel-body">
+  <div id="scroll_form">
+<c:forEach items="${applicationScope.spec_places}" var="sp">
+<c:if  test="${sp ne 'n/a'}">
+<c:choose>
+  <c:when  test="${not empty sessionScope.show_collect}">
+  <input type="checkbox" name = "spec_places" disabled="disabled" value="${sp}">${sp}<br>
+   </c:when>
+   <c:otherwise>
+   </c:otherwise>
+   </c:choose>
+  <input type="checkbox" name = "spec_places" value="${sp}">${sp}<br>
+  </c:if>
+   </c:forEach>
+   </div>
+ </div> 
+ </div>  
+ <!--   <div id ="submit_butt">
+   <input type="submit" name = "Select_poi_filters" value="Select" />
+ </div> --> 
+ </form>
+  </div> 
 
 </body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/google_api.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/google_listener.js"></script>

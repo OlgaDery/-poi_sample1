@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.ejb.EJB;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -25,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import bean_interfaces.POI_operations_singl;
 import bean_interfaces.POI_operations_stateless;
 import objests_interfaces.POI_IF;
 
@@ -46,7 +47,12 @@ import objests_interfaces.POI_IF;
 		})
 public class Pois_for_visualization implements Filter {
 	private final Logger logger = LoggerFactory.getLogger(Pois_for_visualization.class);
-	private InitialContext context;
+	
+	@EJB
+	POI_operations_singl pointSingl;
+	
+	@EJB
+	POI_operations_stateless po;
 	/**
 	 * @see Filter#destroy()
 	 */
@@ -67,14 +73,13 @@ public class Pois_for_visualization implements Filter {
 		
 		
 		logger.info("ENTER dofilter((ServletRequest, ServletResponse)");
-		POI_operations_stateless po;
 		List<? extends POI_IF> my_pois = new LinkedList<POI_IF> ();
 		JSONArray lst = new JSONArray();
 		// to parse the request param to understand what pois will be filtered
 		Map <String, String[]> data = request.getParameterMap();
 		
 		if (data.size()>0) {
-			logger.info("data from ajex received");
+		
 			logger.info("data: {}", data.size());
 			if (data.containsKey("district[]")||data.containsKey("poi_subc1[]")||data.containsKey("poi_subc2[]")||data.containsKey("status[]")||data.containsKey("rating[]")||
 					data.containsKey("avail[]")||data.containsKey("period[]")||data.containsKey("spec_places[]"))//(request.getParameter("Select_poi_filters")!= null) 
@@ -82,8 +87,8 @@ public class Pois_for_visualization implements Filter {
 						logger.info("map size: {}", request.getParameterMap().size());
 
 						try {
-							po = (POI_operations_stateless) context.lookup("java:global/poi_app/POI_stateless_bean");
-							List <? extends POI_IF> pois_all = po.select_all();
+							
+							List <? extends POI_IF> pois_all = pointSingl.getAllPublishedPoints();
 							Set <? extends POI_IF> my_pois1 = new HashSet <POI_IF>();
 							((Set <POI_IF>)my_pois1).addAll(pois_all);
 							my_pois = po.select_filtered_POIs(my_pois1, data);
@@ -102,7 +107,7 @@ public class Pois_for_visualization implements Filter {
 							request.setAttribute("pois_for_vis", lst);
 							
 							}
-						} catch (NamingException e) {
+						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							logger.info(e.getMessage(), e);
 						}	
@@ -129,13 +134,6 @@ public class Pois_for_visualization implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
 		logger.info("ENTER init(request,response)");
-		
-		try {
-			context = new InitialContext();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			logger.info("naming exception()");
-		}
 		
 		logger.info("EXIT init(request,response)");
 	}

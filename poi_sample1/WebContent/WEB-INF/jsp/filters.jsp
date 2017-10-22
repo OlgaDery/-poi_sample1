@@ -125,67 +125,6 @@
    </div>
  </div>
  </div>  
-  
- <div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading" style="text-align:center">Select availability</div>
-  <div class="panel-body">
-  <div id="scroll_form">
-<c:forEach items="${applicationScope.avail}" var="av">
-<c:choose>
-	 <c:when  test="${not empty sessionScope.show_collect}">
-	<input type="checkbox" name = "avail" disabled="disabled" value="${av}">${av}<br>
-	 </c:when>
-	 <c:otherwise>
-	<input type="checkbox" name = "avail" value="${av}">${av}<br>
-	</c:otherwise>
-	</c:choose>
- </c:forEach>
-  </div>
- </div>  
- </div> 
-  
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading" style="text-align:center">Select historical period</div>
-  <div class="panel-body">
-  <div id="scroll_form">
-<c:forEach items="${applicationScope.period}" var="pr">
-<c:if  test="${pr ne 'n/a' and pr ne 'stone age' and pr ne 'neolith'}">
-<c:choose>
-	<c:when  test="${not empty sessionScope.show_collect}">
-	<input type="checkbox" name = "period" disabled="disabled" value="${pr}">${pr}<br>
-	 </c:when>
-	 <c:otherwise>
-		<input type="checkbox" name = "period" value="${pr}">${pr}<br>
-		</c:otherwise>
-		</c:choose>
-		</c:if>
-    </c:forEach>
-   </div>
- </div> 
- </div>
-   
- <div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading" style="text-align:center">Remarkable places</div>
-  <div class="panel-body">
-  <div id="scroll_form">
-<c:forEach items="${applicationScope.spec_places}" var="sp">
-<c:if  test="${sp ne 'n/a'}">
-<c:choose>
-	<c:when  test="${not empty sessionScope.show_collect}">
-	<input type="checkbox" name = "spec_places" disabled="disabled" value="${sp}">${sp}<br>
-	 </c:when>
-	 <c:otherwise>
-	 </c:otherwise>
-	 </c:choose>
-	<input type="checkbox" name = "spec_places" value="${sp}">${sp}<br>
-	</c:if>
-   </c:forEach>
-   </div>
- </div> 
- </div>  
  <!--   <div id ="submit_butt">
    <input type="submit" name = "Select_poi_filters" value="Select" />
  </div> --> 

@@ -139,15 +139,6 @@
 <div id="map" >
 </div>
 <p></p>
-<div id = "routes_filters">
- <div style="text-align:center"><h3>Filters for routes:</h3></div>
- 
- <form method="get" action="${pageContext.request.requestURI}">
-		<input type="submit" name = "filter_routes_only" value="Filter routes" class = "input-t1 btn btn-success btn-sm"/> - show filtered routes on the map
- 		</form>
- 		<p></p>
- ... coming soon
- </div>
  </div> 
 </div>
 

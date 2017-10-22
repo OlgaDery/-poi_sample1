@@ -64,24 +64,6 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 			logger.info("exit create_POI");
 		}
 	}
-	
-	@Override
-	public POI_IF modifyPoi(String creator_id, String poi_id, String poi_name, Integer main_poi_id, float lat, float longit,
-			String town, String street, String building, String post_code, Integer district_index, Integer avail_index,
-			Integer status_index, Integer poi_main_cat_index, Integer poi_add_cat_index, Integer poi_sub1_index,
-			Integer poi_sub2_index, Integer poi_period_index, Integer rating_index, String descript, String weblink, String modified_by) {
-		// TODO Auto-generated method stub
-		try {
-			logger.info("enter modify published poi");
-			
-			POI_IF p = dao.updatePublPoi(creator_id, poi_id, poi_name, main_poi_id, lat, 
-					longit, town, street, building, post_code, district_index, avail_index, status_index, poi_main_cat_index, poi_add_cat_index, poi_sub1_index, poi_sub2_index, poi_period_index, rating_index, descript, weblink, modified_by);
-			
-			return p;
-		} finally {
-			logger.info("exit  modify published poi");
-		}
-	}
 
 
 	@SuppressWarnings("unchecked")
@@ -100,9 +82,6 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 	@Override
 	public List<? extends POI_IF> select_filtered_POIs(Set <? extends POI_IF> pois_to_filter, Map <String, String []> data_to_filter) {
 		// TODO Auto-generated method stub
-		if (logger.isDebugEnabled() == false) {
-			logger.info("debug disabled");
-		};
 		
 		logger.info("enter select_filtered_POIs");
 		Boolean loopIsDone = false;
@@ -411,12 +390,6 @@ public class POI_stateless_bean implements POI_operations_stateless, Serializabl
 		return my_pois;
 	}
 
-
-	@Override
-	public POI_IF deletePoi(String poi_id) {
-	
-		return null;
-	}
 
 	@Override
 	public Map<String, POI_IF> map_of_pois(List<?extends POI_IF> pois_lst) {

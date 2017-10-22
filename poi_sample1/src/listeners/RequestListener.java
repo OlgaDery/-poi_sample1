@@ -27,7 +27,6 @@ public class RequestListener implements ServletRequestListener {
         logger.info("URI: {}", request.getRequestURI());
        
         
-
         logger.info("EXIT requestInitialized(sre)");
     }
 

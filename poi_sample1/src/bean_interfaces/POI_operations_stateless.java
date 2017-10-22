@@ -25,18 +25,8 @@ public interface POI_operations_stateless {
 			Integer poi_sub2_index,
 			Integer poi_period_index, Integer rating_index, String descript, String weblink);
 	
-	//Method is intended to update the certain point of interest, poi_id is used for lookup
-	public POI_IF modifyPoi (String creator_id, String poi_id, String poi_name, Integer main_poi_id, float lat, float longit, String town,
-			String street, String building, String post_code, Integer district_index, Integer avail_index, 
-			Integer status_index, Integer poi_main_cat_index, Integer poi_add_cat_index, Integer poi_sub1_index, 
-			Integer poi_sub2_index,
-			Integer poi_period_index, Integer rating_index, String descript, String weblink, String modify_by);
-	
 	//This method returns all the points of interests from the POIS table of the database
 	public List <? extends POI_IF> select_all ();
-	
-	//Method to delete the point of interest with the certain ID from the database
-	public POI_IF deletePoi (String poi_id);
 	
 	//This method returns the points of interests with specified IDs
 	public List <? extends POI_IF> select_POIs_by_id (Set<String> poi_ids);

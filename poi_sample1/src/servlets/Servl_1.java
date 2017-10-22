@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import java.util.Map;
 
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +23,6 @@ public class Servl_1 extends HttpServlet {
 	private final Logger logger = LoggerFactory.getLogger(Servl_1.class);
 	private Map<String, Web_page_config> webPages;
 	
-	@Inject
-	@HttpRequestEvent
-	private Event <HttpServletRequest> reqEvent;
 	
        
 	@SuppressWarnings("unchecked")
@@ -69,7 +64,7 @@ public void init() throws ServletException {
 			    		
 				    		request.setAttribute("pageTitle", webPage.getDisplayNameKey());
 							request.getRequestDispatcher("/WEB-INF/jsp/header.jsp").include(request, response);
-							request.getRequestDispatcher("/WEB-INF/jsp/left_sidebar.jsp").include(request, response);
+						//	request.getRequestDispatcher("/WEB-INF/jsp/left_sidebar.jsp").include(request, response);
 							request.getRequestDispatcher(webPage.getView()).include(request, response);
 					    	request.getRequestDispatcher("/WEB-INF/jsp/footer.jsp").include(request, response);
 			    		
