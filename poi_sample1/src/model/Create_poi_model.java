@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.ejb.EJB;
+import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -30,13 +30,21 @@ import parameters_for_filtering.Constants_for_pois;
 public class Create_poi_model implements Model {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@EJB
-	POI_operations_stateless po;
 	
-	@EJB
-	POI_operations_singl pointSingl;
+	private bean_interfaces.POI_operations_stateless po;
+	private InitialContext context;
+	private POI_operations_singl pointSingl;
 	
 	public Create_poi_model (){
+		try {
+			context = new InitialContext();
+			po = (POI_operations_stateless)context.lookup("java:global/poi_sample/POI_stateless_bean");
+			pointSingl = (POI_operations_singl)context.lookup("java:global/poi_sample/POI_singleton_bean");
+			
+		} catch (Exception e) {
+			
+		}
+		
 		
 	}
 
@@ -56,7 +64,7 @@ public class Create_poi_model implements Model {
 			try 
 			{
 			
-				URL url = new URL ("http://localhost:8080/poi_app/poi.txt");
+				URL url = new URL ("http://localhost:8080/poi_sample/poi.txt");
 				logger.info("url: {}", url);
 				List <String> lines = new LinkedList <String>();
 				BufferedReader in = new BufferedReader(
@@ -73,29 +81,35 @@ public class Create_poi_model implements Model {
 				for (String line1 : lines) 
 				{
 					String [] data = line1.split("&");
-					
-					po.create_POI
-					("admin", data[0], 0, 
-						Float.parseFloat(data[1]), 
-						Float.parseFloat(data[2]), 
-						"n/a", 
-						"n/a", 
-						"n/a", 
-						"n/a", 
-						 Arrays.asList(Constants_for_pois.district).indexOf(data[4]), 
- 						 Arrays.asList(Constants_for_pois.avail).indexOf(data[5]),
- 						 Arrays.asList(Constants_for_pois.status).indexOf(data[3]), 
- 						 Arrays.asList(Constants_for_pois.poi_main_cat).indexOf(data[6]),
- 						 Arrays.asList(Constants_for_pois.poi_add_cat).indexOf(data[7]),
- 						 Arrays.asList(Constants_for_pois.poi_sub1).indexOf(data[8]),
- 						 Arrays.asList(Constants_for_pois.poi_sub2).indexOf(data[9]), 
- 						 Arrays.asList(Constants_for_pois.poi_period).indexOf(data[10]),
- 						 (Integer.valueOf(data[11])),
-						 data[12], 
-						 "n/a");
+					try {
+						po.create_POI
+						("admin", data[0], 0, 
+							Float.parseFloat(data[1]), 
+							Float.parseFloat(data[2]), 
+							"n/a", 
+							"n/a", 
+							"n/a", 
+							"n/a", 
+							 Arrays.asList(Constants_for_pois.district).indexOf(data[4]), 
+	 						 Arrays.asList(Constants_for_pois.avail).indexOf(data[5]),
+	 						 Arrays.asList(Constants_for_pois.status).indexOf(data[3]), 
+	 						 Arrays.asList(Constants_for_pois.poi_main_cat).indexOf(data[6]),
+	 						 Arrays.asList(Constants_for_pois.poi_add_cat).indexOf(data[7]),
+	 						 Arrays.asList(Constants_for_pois.poi_sub1).indexOf(data[8]),
+	 						 Arrays.asList(Constants_for_pois.poi_sub2).indexOf(data[9]), 
+	 						 Arrays.asList(Constants_for_pois.poi_period).indexOf(data[10]),
+	 						 (Integer.valueOf(data[11])),
+							 data[12], 
+							 "n/a");
+						logger.info("data inserted");
+						
+						
+					} catch (Exception e) {
+						logger.info(e.getMessage(), e);
+					}	
 		     
 				}
-				logger.info("data inserted");
+				
 				
 				try {
 			        pointSingl.uploadPsFromDB();

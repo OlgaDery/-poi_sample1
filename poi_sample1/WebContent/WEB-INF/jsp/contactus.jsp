@@ -16,7 +16,7 @@
 
 </div>
 
-<div id="map">
+<div align="center">
 <h2>If you want to contact us...</h2>
 </div>
 

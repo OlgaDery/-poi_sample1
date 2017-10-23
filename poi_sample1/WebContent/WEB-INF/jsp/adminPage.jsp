@@ -26,9 +26,11 @@
   </div>
   
   <p></p> 
+  <div align="center">
    <form method="post" action="${pageContext.request.requestURI}">
       <input type="submit" name = "uploadPs" value = "Upload points" class = "input-t1 btn btn-success btn-lg"/> 
   
   </form>
+  </div>
 </body>
 </html>

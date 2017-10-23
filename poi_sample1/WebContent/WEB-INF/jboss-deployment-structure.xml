@@ -3,7 +3,6 @@
   <dependencies>
       <module name="javax.api"/>
       <module name="org.jboss.modules"/>
-      <module name="org.apache.derby"/>
       
   </dependencies>
      <!-- exclude-subsystem prevents a subsystems deployment unit processors running on a deployment -->
